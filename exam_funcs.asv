@@ -73,15 +73,11 @@ classdef exam_funcs
         
         function BilinearInterpolation = BilinearInterpolation(point, X, Y, V)
             
-            dx = point(1)-X(1);
-            dy = point(2)-Y(1);
+            dx = point(1)-X(1)
+            dy = point(2)-Y(1)
             
-            BilinearInterpolation = V(1)*(1-dx)*(1-dy)...
-                + V(2)*(dx)*(1-dy)...
-                + V(3)*(1-dx)*(dy)...
-                + V(4)*(dx*dy);
-              % Se opgave 4 i test exam Exam_answers.mlx  
-            end
+            BilinearInterpolation
+        end
         
            
        
