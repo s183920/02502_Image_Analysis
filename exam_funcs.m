@@ -81,7 +81,18 @@ classdef exam_funcs
                 + V(3)*(1-dx)*(dy)...
                 + V(4)*(dx*dy);
               % Se opgave 4 i test exam Exam_answers.mlx  
-            end
+        end
+            
+        function imagegrid(h,imsize)
+        % Call: imagegrid(h,imsize)
+        % h is handle to the axes. Normally just send gca
+        % imsize is the size of the image. Normally just send size(I)
+          set(h,'xtick',1.5:imsize(1)+.5,'ytick',1.5:imsize(2)+.5,...
+            'XTickLabel','',...
+            'YTickLabel','',...
+            'xcolor','r', 'ycolor', 'r','GridLineStyle','-')
+          grid on,axis image
+        end
         
            
        
