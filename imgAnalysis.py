@@ -9,19 +9,17 @@ def get_matrix():
     data_org = data
 
     # clean data
-    # print(type(data))
     data = re.sub(r"[^\d\&\\]", "", data)
-    # print(data)
-    # data = data.split("\\")
     data = [t for t in data.split("\\") if bool(re.search(r'\d', t))]
     data = "\n".join(data)
     data = re.sub(r"\&", ", ", data)
     data = "[" + data + "]"
 
+    # set clipboard data
     if data_org == data:
         print("The copied data is unchanged. Please make sure data is copied in a LaTeX format")
     else:
-        # set clipboard data
+        
         win32clipboard.OpenClipboard()
         win32clipboard.EmptyClipboard()
         win32clipboard.SetClipboardText(data)
