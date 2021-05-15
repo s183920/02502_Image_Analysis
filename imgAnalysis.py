@@ -11,26 +11,26 @@ def img_to_mat(rgb = False):
 
     # clean data
     if rgb:
-        data = data.upper()
+        # data = data.upper()
         data = re.sub(r"[^\d\&\\RGB]", "", data)
-        data = [t for t in data.split("\\") if bool(re.search(r'\d', t))]
+        data = [t for t in data.split("\\\\") if bool(re.search(r'\d', t))]
         
         # Red values
-        R = [re.findall(r"R\d*", t) for t in data]
+        R = [re.findall(r"R\W?:?\W?\d*", t) for t in data]
         R = [", ".join(t) for t in R]
         R = [re.sub("R", "", t) for t in R]
         R = "; ".join(R)
         R = "r = [" + R + "]"
-
+    
         # Green values
-        G = [re.findall(r"G\d*", t) for t in data]
+        G = [re.findall(r"G\W?:?\W?\d*", t) for t in data]
         G = [", ".join(t) for t in G]
         G = [re.sub("G", "", t) for t in G]
         G = "; ".join(G)
         G = "g = [" + G + "]"
 
         # Blue values
-        B = [re.findall(r"B\d*", t) for t in data]
+        B = [re.findall(r"B\W?:?\W?\d*", t) for t in data]
         B = [", ".join(t) for t in B]
         B = [re.sub("B", "", t) for t in B]
         B = "; ".join(B)
@@ -67,3 +67,4 @@ if __name__ == "__main__":
     assert type_of_data in [1,2], "The given input was not an option"
     rgb = True if type_of_data == 1 else False
     img_to_mat(rgb)
+
