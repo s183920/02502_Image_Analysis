@@ -94,7 +94,11 @@ classdef exam_funcs
           grid on,axis image
         end
         
-           
+        function imshow_binary(img)
+            imshow(img, 'InitialMagnification', 'fit') 
+            pixelgrid
+        end
+        
        
             
         
