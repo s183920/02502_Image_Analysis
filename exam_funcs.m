@@ -25,7 +25,6 @@ classdef exam_funcs
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%              COLOR REPRESENTATIONS                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
-        hsi
         function  HSI = RGB_to_HSI(im)
             %Represent the RGB image in [0 1] range
             im=double(im)/255;
@@ -165,6 +164,18 @@ classdef exam_funcs
                 path(j) = idx-1;
             end
         end
+        
+        function NCC = NormCrossCorr2D(I_crop, template)
+            % calculates normalised 2D cross correlation between an image
+            % cropped around the pixel where cross correlation is wanted
+            % and a template image (meaning the sizes of I_crop and
+            % template must be equal). See december 2019 exercise 19 for
+            % example
+            corr_2d = sum(I_crop.*template, "all");
+            image_patch_len = sqrt(sum(I_crop.^2, "all"));
+            template_patch_len = sqrt(sum(template.^2, "all"));
+            NCC = corr_2d/(image_patch_len*template_patch_len);
+        end 
         
            
         
