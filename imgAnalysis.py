@@ -45,12 +45,12 @@ def img_to_mat(type_of_data = "gray"):
         data = re.sub(r"\&", ", ", data)
         data = "[" + data + "]"
     elif type_of_data == "landmark":
-        data = re.sub(r"[^\d\&\\ab]", "", data)
+        data = re.sub(r"[^\d\&\\ab-]", "", data)
         
         # test = [re.sub(r"[^\d&ab]", "", t) for t in test.split("\\\\") if bool(re.search(r'\d', t))]
         out = ""
         data = re.sub(r"[\&]", " ", data)
-        data = re.findall("\w\d{1} \d{1,2} \d{1,2}", data)
+        data = re.findall("\w\d{1} -?\d{1,2} -?\d{1,2}", data)
 
         for t in data:
             t = t.split(" ")

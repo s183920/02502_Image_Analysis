@@ -100,6 +100,15 @@ classdef exam_funcs
             rotate2d = R * point;
         end
         
+        function opt_trans = OptTranslation(a, b)
+            % calculates the optimal translation that brings landmarks 
+            % from the reference image over in the template image 
+            % for example see exercise 2 from dec 2018
+            mean_a = mean(a, 2);
+            mean_b = mean(b, 2);
+            opt_trans = mean_b-mean_a;
+        end
+        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                INTERPOLATION STUFF                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -165,6 +174,10 @@ classdef exam_funcs
             end
         end
         
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           IMAGE METRICS                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+        
         function NCC = NormCrossCorr2D(I_crop, template)
             % calculates normalised 2D cross correlation between an image
             % cropped around the pixel where cross correlation is wanted
@@ -176,6 +189,13 @@ classdef exam_funcs
             template_patch_len = sqrt(sum(template.^2, "all"));
             NCC = corr_2d/(image_patch_len*template_patch_len);
         end 
+        
+        function F = SquaredDist(a, b)
+            F = 0;
+            for i = 1:length(a)
+                F = F + (b(1,i)-a(1,i))^2 + (b(2,i)-a(2,i))^2;
+            end
+        end
         
            
         
