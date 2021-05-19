@@ -71,7 +71,7 @@ classdef exam_funcs
         function GmappedI= GammaMap(I,gammaval)
             Itemp = double(I);
             scale = ((Itemp/255).^gammaval)*255;
-            scale = round(scale);
+            %scale = round(scale);
             GmappedI = scale;
             %GmappedI = uint8(scale);
         end
@@ -176,7 +176,7 @@ classdef exam_funcs
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           IMAGE METRICS                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           IMAGE METRICS                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
         
         function NCC = NormCrossCorr2D(I_crop, template)
@@ -198,7 +198,41 @@ classdef exam_funcs
             end
         end
         
-           
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           IMAGE FILTERING                          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+        
+        function I_filt = Filter(I, filter, s)
+            % applies filter to image (s = size of filter, def = 3)
+            % possible values of filter: "min" (min-rank). "max" (max-rank,
+            % "median" (median rank), "prewitt" (vertical), "prewitth"
+            % (horizontal), "sobel" (vertical), "sobelh" (horizontal)
+            possible_filters = ["min", "max", "median", "prewitt", "prewitth", "sobel", "sobelh"];
+            assert(sum(ismember(possible_filters, filter) == 1), "Please specify a valid filter");
+            
+            if nargin < 3
+                s = 3;
+            end
+            
+            prewitt = [-1, 0, 1; -1, 0, 1; -1, 0, 1];
+            sobel = [-1, 0, 1; -2, 0, 2; -1, 0, 1];
+            
+            if filter == "min"
+                I_filt = ordfilt2(I, 1, ones(s,s), "symmetric");
+            elseif filter == "max"
+                I_filt = ordfilt2(I, 9, ones(s,s));
+            elseif filter == "median"
+                I_filt = ordfilt2(I, 5, ones(s,s));
+            elseif filter == "prewitt"
+                I_filt = imfilter(I, prewitt);
+            elseif filter == "prewitth"
+                I_filt = imfilter(I, prewitt');
+            elseif filter == "sobel"
+                I_filt = imfilter(I, sobel);
+            elseif filter == "sobelh"
+                I_filt = imfilter(I, sobel');
+            end
+        end 
         
     end
 end

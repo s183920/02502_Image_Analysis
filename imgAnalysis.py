@@ -1,6 +1,7 @@
 import win32clipboard
 import re
 import time
+import itertools
 
 def img_to_mat(type_of_data = "gray"):
     # get clipboard data
@@ -57,6 +58,21 @@ def img_to_mat(type_of_data = "gray"):
             out += t[0] + " = [" + t[1] + "; " + t[2] + "];\n"
         
         data = out
+    elif type_of_data == "gray_run_enc":
+        data = re.sub(r"[^\d,]", "", data)
+        data = data.split(",")
+        data = [int(i) for i in data]
+        data = [[data[i]]*data[i-1] for i in range(1, len(data), 2)]
+        data = str(list(itertools.chain(*data))) + ";"
+    elif type_of_data == "binary_run_length":
+        data = re.sub(r"[^\d,\[\(\)]", "", data)
+        data = data.split("[")
+        data = [re.sub(r"[^\d,]", "", d).split(",") for d in data if bool(re.search(r'\d', d))]
+        out = "I = zeros();\n"
+        for d in data:
+            col = f"{d[1]}" if d[1] == d[2] else f"{d[1]}:{d[2]}"
+            out += f"I({d[0]}, {col}) = 1;\n"
+        data = out
 
     # set clipboard data
     if data_org == data:
@@ -74,10 +90,11 @@ def img_to_mat(type_of_data = "gray"):
 
 if __name__ == "__main__":
     print("Please enter the number of the type of data you have in your clip board")
-    print("\t1: RGB table\n\t2: Grey level image\n\t3: Landmark data")
+    print("\t1: RGB table\n\t2: Grey level image\n\t3: Landmark data\n\t" + 
+        "4: Gray level run length encoding\n\t5: Binary run length coding")
     type_of_data = int(input("Datatype: "))
-    assert type_of_data in [1,2,3], "The given input was not an option"
-    datatype = {1:"rgb", 2:"gray", 3:"landmark"}
+    datatype = {1:"rgb", 2:"gray", 3:"landmark", 4: "gray_run_enc", 5: "binary_run_length"}
+    assert type_of_data in datatype.keys(), "The given input was not an option"
     img_to_mat(datatype[type_of_data])
 
 
