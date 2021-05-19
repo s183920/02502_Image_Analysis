@@ -65,6 +65,7 @@ def img_to_mat(type_of_data = "gray"):
         data = [[data[i]]*data[i-1] for i in range(1, len(data), 2)]
         data = str(list(itertools.chain(*data))) + ";"
     elif type_of_data == "binary_run_length":
+        data = re.sub(r";", ",", data)
         data = re.sub(r"[^\d,\[\(\)]", "", data)
         data = data.split("[")
         data = [re.sub(r"[^\d,]", "", d).split(",") for d in data if bool(re.search(r'\d', d))]

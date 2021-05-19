@@ -216,7 +216,7 @@ classdef exam_funcs
             % "median" (median rank), "prewitt" (vertical), "prewitth"
             % (horizontal), "sobel" (vertical), "sobelh" (horizontal)
             possible_filters = ["min", "max", "median", "prewitt", "prewitth", "sobel", "sobelh"];
-            assert(sum(ismember(possible_filters, filter) == 1), "Please specify a valid filter");
+            assert(sum(ismember(possible_filters, filter) == 1), sprintf("%s is not a valid filter", filter));
             
             if nargin < 3
                 s = 3;
