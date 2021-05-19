@@ -1,5 +1,5 @@
 % Functions for exam in 02502 May 2021
-% These function were create by Katrine Bay and Lukas Leindals for the exam
+% These function were create by Katrine Bay, Gustav Larsen and Lukas Leindals for the exam
 classdef exam_funcs
     methods(Static)
         
