@@ -85,13 +85,13 @@ def img_to_mat(type_of_data = "gray"):
         point = np.array([int(i) for i in data[0].split(",")])
         point = np.flip(point)
         out = "%This only creates the border of the image, please fill the rest\n"
-        out += "%This is created based on the start pixel being a zero based (x,y) coordinate"
+        out += "%This is created based on the start pixel being a zero based (x,y) coordinate\n"
         out += f"I = zeros();\nI({point[0]}, {point[1]}) = 1;"
         for p in data[1]:
             point+=pos[int(p)]
             out += f" I({point[0]},{point[1]}) = 1; "
         
-        data = out
+        data = out + "\nex.imshow_binary(I)"
         
 
 

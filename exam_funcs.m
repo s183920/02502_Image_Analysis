@@ -215,7 +215,7 @@ classdef exam_funcs
             % possible values of filter: "min" (min-rank). "max" (max-rank,
             % "median" (median rank), "prewitt" (vertical), "prewitth"
             % (horizontal), "sobel" (vertical), "sobelh" (horizontal)
-            possible_filters = ["min", "max", "median", "prewitt", "prewitth", "sobel", "sobelh"];
+            possible_filters = ["min", "max", "median", "prewitt", "prewitth", "sobel", "sobelh", "mean"];
             assert(sum(ismember(possible_filters, filter) == 1), sprintf("%s is not a valid filter", filter));
             
             if nargin < 3
@@ -239,6 +239,8 @@ classdef exam_funcs
                 I_filt = imfilter(I, sobel);
             elseif filter == "sobelh"
                 I_filt = imfilter(I, sobel');
+            elseif filter == "mean"
+                I_filt = imfilter(I, ones(s)/s^2);
             end
         end 
         
